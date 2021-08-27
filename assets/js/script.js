@@ -6,6 +6,7 @@ let end = false;
 const arrSpan = document.querySelectorAll("span");
 let replay;
 const fixedPath = "./assets/";
+let widthBody = document.getElementsByTagName("body")[0].clientWidth;
 let arrPhotos = [{
     nome:"Oscar",
     picPath:`${fixedPath}images/heathLedger.jpg`,
@@ -46,7 +47,7 @@ window.onload = () => {
         span.title = "Clique para assistir a um vídeo."
         span.addEventListener("click", () => {
             if(playerVideo.currentTime == 0 && play == false){  
-                if(document.getElementsByTagName("body")[0].clientWidth < 600) {
+                if(widthBody < 870) {
                     document.getElementsByClassName("container_content")[0].style.opacity=0
                 }
                 play = true;
@@ -85,7 +86,13 @@ function ColocarEremoverImagem(opacity) {
 
 function montarVideo() {
     if (playerVideo.currentTime == 0) {
+        if(widthBody < 870){
+            document.body.style.overflow = "hidden"
+            document.getElementsByTagName("h1")[0].style.display="none";
+            window.location.href = "#tv";
+        };
         playerVideo.style.opacity = 1;
+        playerVideo.controls = true;
         playerVideo.play();
         verificarVideo();
     }
@@ -98,6 +105,7 @@ function verificarVideo() {
         playerVideo.currentTime = 0
         play = false;
         ColocarEremoverImagem(false);
+        document.getElementsByTagName("h1")[0].style.display="flex";
         console.log("Acabou");
         clearTimeout(replay);
         if(document.getElementsByTagName("body")[0].clientWidth < 600) {
